@@ -254,7 +254,9 @@ describe('SettingsScreen', () => {
       await saveButton.click();
 
       // エラーメッセージが表示される
-      expect(screen.getByText(/景品名は必須です/)).toBeDefined();
+      await waitFor(() => {
+        expect(screen.getByText(/景品名を入力してください/)).toBeDefined();
+      });
     });
 
     it('should show error when stock is negative', async () => {
@@ -277,7 +279,9 @@ describe('SettingsScreen', () => {
       await saveButton.click();
 
       // エラーメッセージが表示される
-      expect(screen.getByText(/在庫数は0以上である必要があります/)).toBeDefined();
+      await waitFor(() => {
+        expect(screen.getByText(/在庫数は0以上の数値を入力してください/)).toBeDefined();
+      });
     });
 
     it('should not add prize when validation fails', async () => {

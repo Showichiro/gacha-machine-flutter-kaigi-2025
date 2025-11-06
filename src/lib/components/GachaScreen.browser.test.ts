@@ -163,8 +163,9 @@ describe('GachaScreen', () => {
       // アニメーション完了を待つ(2.8秒: スピニング2.0秒 + リビール0.8秒)
       await new Promise((resolve) => setTimeout(resolve, 2800));
 
-      // 景品名が表示される
-      expect(screen.getByText('Awesome Prize')).toBeDefined();
+      // 景品名が表示される (waitForで待機)
+      const prizeName = await screen.findByText('Awesome Prize', {}, { timeout: 3000 });
+      expect(prizeName).toBeDefined();
     });
 
     it('should show close button in result state', async () => {
@@ -184,8 +185,8 @@ describe('GachaScreen', () => {
       // アニメーション完了を待つ(2.8秒: スピニング2.0秒 + リビール0.8秒)
       await new Promise((resolve) => setTimeout(resolve, 2800));
 
-      // 閉じるボタンが表示される
-      const closeButton = screen.getByText('閉じる');
+      // 閉じるボタンが表示される (waitForで待機)
+      const closeButton = await screen.findByText('閉じる', {}, { timeout: 3000 });
       expect(closeButton).toBeDefined();
     });
 
@@ -206,8 +207,8 @@ describe('GachaScreen', () => {
       // アニメーション完了を待つ(2.8秒: スピニング2.0秒 + リビール0.8秒)
       await new Promise((resolve) => setTimeout(resolve, 2800));
 
-      // 閉じるボタンをクリック
-      const closeButton = screen.getByText('閉じる');
+      // 閉じるボタンをクリック (waitForで待機)
+      const closeButton = await screen.findByText('閉じる', {}, { timeout: 3000 });
       await closeButton.click();
 
       // idle状態に戻り、ガチャボタンが再度表示される
@@ -233,6 +234,9 @@ describe('GachaScreen', () => {
 
       // アニメーション完了を待つ(2.8秒: スピニング2.0秒 + リビール0.8秒)
       await new Promise((resolve) => setTimeout(resolve, 2800));
+
+      // 結果が表示されるまで待機
+      await screen.findByText('Test Prize', {}, { timeout: 3000 });
 
       // 在庫が1減っていることを確認
       expect(prizesStore.prizes[0].stock).toBe(4);
@@ -274,8 +278,8 @@ describe('GachaScreen', () => {
       // アニメーション完了を待つ(2.8秒: スピニング2.0秒 + リビール0.8秒)
       await new Promise((resolve) => setTimeout(resolve, 2800));
 
-      // 閉じるボタンをクリック
-      const closeButton = screen.getByText('閉じる');
+      // 閉じるボタンをクリック (waitForで待機)
+      const closeButton = await screen.findByText('閉じる', {}, { timeout: 3000 });
       await closeButton.click();
 
       // idle状態に戻るが、在庫が0なのでボタンは非活性
@@ -300,8 +304,8 @@ describe('GachaScreen', () => {
       // アニメーション完了を待つ(2.8秒: スピニング2.0秒 + リビール0.8秒)
       await new Promise((resolve) => setTimeout(resolve, 2800));
 
-      // 閉じるボタンをクリック
-      const closeButton = screen.getByText('閉じる');
+      // 閉じるボタンをクリック (waitForで待機)
+      const closeButton = await screen.findByText('閉じる', {}, { timeout: 3000 });
       await closeButton.click();
 
       // 在庫なしメッセージが表示される

@@ -105,6 +105,46 @@ describe('PrizeService', () => {
 
       expect(prize1.id).not.toBe(prize2.id);
     });
+
+    it('should add prize with description field', () => {
+      const request: AddPrizeRequest = {
+        name: 'Prize with Description',
+        imageUrl: '/prize.png',
+        stock: 5,
+        description: 'This is a test prize description',
+      };
+
+      const result = prizeService.addPrize(request);
+
+      expect(result.description).toBe('This is a test prize description');
+    });
+
+    it('should add prize without description field', () => {
+      const request: AddPrizeRequest = {
+        name: 'Prize without Description',
+        imageUrl: '/prize.png',
+        stock: 5,
+      };
+
+      const result = prizeService.addPrize(request);
+
+      expect(result.description).toBeUndefined();
+    });
+
+    it('should save prize with description to localStorage', () => {
+      const request: AddPrizeRequest = {
+        name: 'Prize',
+        imageUrl: '/prize.png',
+        stock: 5,
+        description: 'Test description',
+      };
+
+      prizeService.addPrize(request);
+
+      const saved = localStorage.getItem('prizes');
+      const parsed = JSON.parse(saved!);
+      expect(parsed[0].description).toBe('Test description');
+    });
   });
 
   describe('updatePrize', () => {
@@ -214,6 +254,63 @@ describe('PrizeService', () => {
       expect(() => prizeService.updatePrize(request)).toThrow(
         '指定された景品が見つかりません'
       );
+    });
+
+    it('should update prize description', () => {
+      const prize = prizeService.addPrize({
+        name: 'Prize',
+        imageUrl: '/prize.png',
+        stock: 5,
+        description: 'Old description',
+      });
+
+      const request: UpdatePrizeRequest = {
+        id: prize.id,
+        description: 'New description',
+      };
+
+      prizeService.updatePrize(request);
+
+      const updated = prizesStore.prizes.find((p) => p.id === prize.id);
+      expect(updated?.description).toBe('New description');
+      expect(updated?.name).toBe('Prize'); // 変更されていないことを確認
+    });
+
+    it('should update prize and add description to prize without one', () => {
+      const prize = prizeService.addPrize({
+        name: 'Prize',
+        imageUrl: '/prize.png',
+        stock: 5,
+      });
+
+      const request: UpdatePrizeRequest = {
+        id: prize.id,
+        description: 'Added description',
+      };
+
+      prizeService.updatePrize(request);
+
+      const updated = prizesStore.prizes.find((p) => p.id === prize.id);
+      expect(updated?.description).toBe('Added description');
+    });
+
+    it('should save updated description to localStorage', () => {
+      const prize = prizeService.addPrize({
+        name: 'Prize',
+        imageUrl: '/prize.png',
+        stock: 5,
+      });
+
+      const request: UpdatePrizeRequest = {
+        id: prize.id,
+        description: 'Updated description',
+      };
+
+      prizeService.updatePrize(request);
+
+      const saved = localStorage.getItem('prizes');
+      const parsed = JSON.parse(saved!);
+      expect(parsed[0].description).toBe('Updated description');
     });
   });
 

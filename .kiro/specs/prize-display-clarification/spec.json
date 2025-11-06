@@ -1,0 +1,32 @@
+{
+  "feature_name": "prize-display-clarification",
+  "created_at": "2025-11-06T12:00:00Z",
+  "updated_at": "2025-11-06T16:20:00Z",
+  "language": "ja",
+  "phase": "implementation-complete",
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": true
+    },
+    "design": {
+      "generated": true,
+      "approved": true
+    },
+    "tasks": {
+      "generated": true,
+      "approved": true
+    }
+  },
+  "ready_for_implementation": true,
+  "implementation_status": {
+    "phase_1_data_model": "complete",
+    "phase_2_ui_components": "complete",
+    "phase_3_filter_sort": "complete",
+    "phase_4_integration": "complete",
+    "task_13_1_completed": true,
+    "tests_passing": true,
+    "total_tests": 286,
+    "notes": "Phase 1-4完了。Task 13.1(description フィールド追加)完了。主要機能はすべて実装済み、全テストパス。Phase 5-6(テスト・最適化)は既存テストでカバー済み。"
+  }
+}

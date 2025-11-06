@@ -20,6 +20,9 @@ export interface Prize {
 
   /** 作成日時（UNIXタイムスタンプ） */
   createdAt: number;
+
+  /** 景品の説明テキスト（オプション、最大500文字） */
+  description?: string;
 }
 
 /**
@@ -44,6 +47,7 @@ export interface AddPrizeRequest {
   name: string;
   imageUrl: string;
   stock: number;
+  description?: string;
 }
 
 /**
@@ -54,6 +58,7 @@ export interface UpdatePrizeRequest {
   name?: string;
   imageUrl?: string;
   stock?: number;
+  description?: string;
 }
 
 /**
@@ -70,4 +75,43 @@ export interface GachaResult {
 export interface AnimationConfig {
   duration: number;
   easing?: (t: number) => number;
+}
+
+/**
+ * レアリティレベル
+ */
+export type RarityLevel = 'Normal' | 'Rare' | 'SuperRare';
+
+/**
+ * 景品表示情報(Value Object)
+ */
+export interface PrizeDisplayInfo {
+  /** 景品エンティティ */
+  prize: Prize;
+
+  /** 当選確率(0-100) */
+  probability: number;
+
+  /** レアリティレベル */
+  rarity: RarityLevel;
+
+  /** 在庫が少ない(5個以下)かどうか */
+  isLowStock: boolean;
+}
+
+/**
+ * 景品統計情報(Value Object)
+ */
+export interface PrizeStats {
+  /** 登録景品総数 */
+  totalCount: number;
+
+  /** 在庫がある景品数 */
+  availableCount: number;
+
+  /** 在庫切れ景品数 */
+  outOfStockCount: number;
+
+  /** 総在庫数 */
+  totalStock: number;
 }

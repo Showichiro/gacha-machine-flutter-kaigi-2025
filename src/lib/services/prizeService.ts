@@ -34,6 +34,7 @@ export class PrizeService {
       imageUrl: request.imageUrl,
       stock: request.stock,
       createdAt: Date.now(),
+      ...(request.description !== undefined && { description: request.description }),
     };
 
     const currentPrizes = prizesStore.prizes;
@@ -63,6 +64,7 @@ export class PrizeService {
       ...(request.name !== undefined && { name: request.name }),
       ...(request.imageUrl !== undefined && { imageUrl: request.imageUrl }),
       ...(request.stock !== undefined && { stock: request.stock }),
+      ...(request.description !== undefined && { description: request.description }),
     };
 
     const updatedPrizes = [...currentPrizes];

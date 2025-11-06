@@ -3,6 +3,8 @@
   import { PrizeService } from '../services/prizeService';
   import { AudioPlayer } from '../services/audioPlayer';
   import { createSpinAnimation, createRevealAnimation } from '../services/animationEngine';
+  import PrizeListWidget from './PrizeListWidget.svelte';
+  import PrizeDetailModal from './PrizeDetailModal.svelte';
   import type { GachaState, Prize } from '../types';
 
   // Props: イベントコールバック
@@ -19,6 +21,10 @@
   // ガチャ状態の管理
   let gachaState = $state<GachaState>('idle');
   let selectedPrize = $state<Prize | null>(null);
+
+  // 景品詳細モーダルの状態
+  let showDetailModal = $state(false);
+  let selectedPrizeIdForDetail = $state<string | null>(null);
 
   // 設定画面への遷移
   function navigateToSettings() {
@@ -69,6 +75,18 @@
     spinAnimation.set(0);
     revealAnimation.set(0);
   }
+
+  // 景品詳細モーダルを開く
+  function handlePrizeClick(prizeId: string) {
+    selectedPrizeIdForDetail = prizeId;
+    showDetailModal = true;
+  }
+
+  // 景品詳細モーダルを閉じる
+  function closeDetailModal() {
+    showDetailModal = false;
+    selectedPrizeIdForDetail = null;
+  }
 </script>
 
 <div class="gacha-screen" data-testid="gacha-screen">
@@ -86,20 +104,32 @@
   <!-- メインコンテンツ -->
   <main class="main-content">
     {#if gachaState === 'idle'}
-      <!-- ガチャボタン -->
-      <div class="gacha-button-container">
-        <button
-          class="gacha-button"
-          data-testid="gacha-button"
-          disabled={!prizesStore.isGachaAvailable}
-          onclick={executeGacha}
-        >
-          ガチャを引く
-        </button>
+      <div class="idle-container">
+        <!-- ガチャボタン -->
+        <div class="gacha-button-container">
+          <button
+            class="gacha-button"
+            data-testid="gacha-button"
+            disabled={!prizesStore.isGachaAvailable}
+            onclick={executeGacha}
+          >
+            ガチャを引く
+          </button>
 
-        {#if !prizesStore.isGachaAvailable}
-          <p class="no-stock-message">現在、景品の在庫がありません</p>
-        {/if}
+          {#if !prizesStore.isGachaAvailable}
+            <p class="no-stock-message">現在、景品の在庫がありません</p>
+          {/if}
+        </div>
+
+        <!-- 景品一覧 -->
+        <div class="prize-list-section">
+          <h2 class="prize-list-title">景品一覧</h2>
+          <PrizeListWidget
+            mode="compact"
+            onPrizeClick={handlePrizeClick}
+            showControls={false}
+          />
+        </div>
       </div>
     {:else if gachaState === 'spinning'}
       <!-- スピニングアニメーション表示 -->
@@ -155,6 +185,13 @@
       </div>
     {/if}
   </main>
+
+  <!-- 景品詳細モーダル -->
+  <PrizeDetailModal
+    isOpen={showDetailModal}
+    prizeId={selectedPrizeIdForDetail}
+    onClose={closeDetailModal}
+  />
 </div>
 
 <style>
@@ -193,6 +230,16 @@
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    overflow-y: auto;
+  }
+
+  .idle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    width: 100%;
+    max-width: 1200px;
   }
 
   .gacha-button-container {
@@ -200,6 +247,19 @@
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+  }
+
+  .prize-list-section {
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .prize-list-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-high, #15151a);
+    margin: 0 0 1.5rem 0;
+    text-align: center;
   }
 
   .gacha-button {

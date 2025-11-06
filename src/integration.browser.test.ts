@@ -47,8 +47,8 @@ describe('統合テスト', () => {
       // アニメーション完了を待つ(2.8秒: スピニング2.0秒 + リビール0.8秒)
       await new Promise((resolve) => setTimeout(resolve, 2800));
 
-      // 結果が表示される
-      expect(screen.getByText('Integration Test Prize')).toBeDefined();
+      // 結果が表示される (waitForで待機)
+      await screen.findByText('Integration Test Prize', {}, { timeout: 3000 });
 
       // 在庫が減少
       expect(prizesStore.prizes[0].stock).toBe(2);
@@ -59,8 +59,8 @@ describe('統合テスト', () => {
       const parsedData = JSON.parse(savedData!);
       expect(parsedData[0].stock).toBe(2);
 
-      // 閉じるボタンをクリック
-      const closeButton = screen.getByText('閉じる');
+      // 閉じるボタンをクリック (waitForで待機)
+      const closeButton = await screen.findByText('閉じる', {}, { timeout: 3000 });
       await closeButton.click();
 
       // idle状態に戻る
@@ -88,8 +88,8 @@ describe('統合テスト', () => {
       // アニメーション完了を待つ(2.8秒: スピニング2.0秒 + リビール0.8秒)
       await new Promise((resolve) => setTimeout(resolve, 2800));
 
-      // 閉じるボタンをクリック
-      const closeButton = screen.getByText('閉じる');
+      // 閉じるボタンをクリック (waitForで待機)
+      const closeButton = await screen.findByText('閉じる', {}, { timeout: 3000 });
       await closeButton.click();
 
       // ガチャボタンが非活性
@@ -235,7 +235,7 @@ describe('統合テスト', () => {
       await saveButton.click();
 
       // エラーメッセージが表示される
-      expect(screen.getByText(/景品名は必須です/)).toBeDefined();
+      expect(screen.getByText(/景品名を入力してください/)).toBeDefined();
 
       // 景品は追加されない
       expect(prizesStore.prizes.length).toBe(0);

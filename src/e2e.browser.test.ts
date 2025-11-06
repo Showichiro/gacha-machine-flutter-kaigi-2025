@@ -51,8 +51,8 @@ describe('エンドツーエンドシナリオテスト', () => {
       const resultScreen = screen.getByTestId('gacha-screen');
       expect(resultScreen).toBeDefined();
 
-      // 閉じるボタンをクリック
-      const closeButton1 = screen.getByText('閉じる');
+      // 閉じるボタンをクリック (waitForで待機)
+      const closeButton1 = await screen.findByText('閉じる', {}, { timeout: 3000 });
       await closeButton1.click();
 
       // === 2回目のガチャ ===
@@ -70,8 +70,8 @@ describe('エンドツーエンドシナリオテスト', () => {
       // アニメーション完了を待つ(2.8秒: スピニング2.0秒 + リビール0.8秒)
       await new Promise((resolve) => setTimeout(resolve, 2800));
 
-      // 結果表示
-      const closeButton2 = screen.getByText('閉じる');
+      // 結果表示 (waitForで待機)
+      const closeButton2 = await screen.findByText('閉じる', {}, { timeout: 3000 });
       expect(closeButton2).toBeDefined();
 
       // 2回実行したので在庫が2減っている
@@ -236,14 +236,15 @@ describe('エンドツーエンドシナリオテスト', () => {
       // アニメーション完了を待つ(2.8秒: スピニング2.0秒 + リビール0.8秒)
       await new Promise((resolve) => setTimeout(resolve, 2800));
 
-      // 結果が表示される
-      expect(screen.getByText('最後の景品')).toBeDefined();
+      // 結果が表示される (waitForで待機)
+      const prizeName = await screen.findByText('最後の景品', {}, { timeout: 3000 });
+      expect(prizeName).toBeDefined();
 
       // 在庫が0に
       expect(prizesStore.prizes[0].stock).toBe(0);
 
-      // 閉じるボタンをクリック
-      const closeButton = screen.getByText('閉じる');
+      // 閉じるボタンをクリック (waitForで待機)
+      const closeButton = await screen.findByText('閉じる', {}, { timeout: 3000 });
       await closeButton.click();
 
       // ガチャボタンが非活性化
@@ -334,7 +335,7 @@ describe('エンドツーエンドシナリオテスト', () => {
       await saveButton.click();
 
       // エラーメッセージが表示される
-      expect(screen.getByText(/景品名は必須です/)).toBeDefined();
+      expect(screen.getByText(/景品名を入力してください/)).toBeDefined();
 
       // 景品は追加されていない
       expect(prizesStore.prizes.length).toBe(0);
@@ -376,7 +377,7 @@ describe('エンドツーエンドシナリオテスト', () => {
       await saveButton.click();
 
       // エラーメッセージが表示される
-      expect(screen.getByText(/在庫数は0以上である必要があります/)).toBeDefined();
+      expect(screen.getByText(/在庫数は0以上の数値を入力してください/)).toBeDefined();
 
       // 景品は追加されていない
       expect(prizesStore.prizes.length).toBe(0);

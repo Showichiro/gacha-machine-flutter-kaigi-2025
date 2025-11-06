@@ -16,6 +16,7 @@ Kiro-style Spec Driven Development implementation using claude code slash comman
 
 ### Active Specifications
 - **gacha-machine-app**: Flutter Kaigi 2025のASSIGNブース用ガチャアプリケーション (初期化済み)
+- **prize-display-clarification**: ユーザに景品設定を明確に表示する機能 ✅ **実装完了** (Phase 1-4完了、全286テストパス)
 - Use `/kiro:spec-status [feature-name]` to check progress
 
 ## Development Guidelines

@@ -1,6 +1,8 @@
 <script lang="ts">
   import { prizesStore } from '../stores/prizes.svelte';
   import { PrizeService } from '../services/prizeService';
+  import PrizeStatsWidget from './PrizeStatsWidget.svelte';
+  import PrizeListWidget from './PrizeListWidget.svelte';
   import type { Prize, AddPrizeRequest, UpdatePrizeRequest } from '../types';
 
   // Props: イベントコールバック
@@ -16,12 +18,14 @@
     name: '',
     imageUrl: '',
     stock: 0,
+    description: '',
   });
 
   // バリデーションエラー
   let errors = $state({
     name: '',
     stock: '',
+    description: '',
   });
 
   // 削除確認ダイアログ
@@ -41,10 +45,12 @@
       name: '',
       imageUrl: '',
       stock: 0,
+      description: '',
     };
     errors = {
       name: '',
       stock: '',
+      description: '',
     };
   }
 
@@ -56,10 +62,12 @@
       name: prize.name,
       imageUrl: prize.imageUrl,
       stock: prize.stock,
+      description: prize.description || '',
     };
     errors = {
       name: '',
       stock: '',
+      description: '',
     };
   }
 
@@ -71,10 +79,12 @@
       name: '',
       imageUrl: '',
       stock: 0,
+      description: '',
     };
     errors = {
       name: '',
       stock: '',
+      description: '',
     };
   }
 
@@ -84,6 +94,7 @@
     errors = {
       name: '',
       stock: '',
+      description: '',
     };
 
     if (!formData.name.trim()) {
@@ -105,6 +116,11 @@
       isValid = false;
     }
 
+    if (formData.description.length > 500) {
+      errors.description = '説明は500文字以内で入力してください';
+      isValid = false;
+    }
+
     return isValid;
   }
 
@@ -121,6 +137,7 @@
         name: formData.name,
         imageUrl: formData.imageUrl,
         stock: formData.stock,
+        description: formData.description.trim() || undefined,
       };
       prizeService.updatePrize(updateRequest);
     } else {
@@ -129,6 +146,7 @@
         name: formData.name,
         imageUrl: formData.imageUrl,
         stock: formData.stock,
+        description: formData.description.trim() || undefined,
       };
       prizeService.addPrize(addRequest);
     }
@@ -172,6 +190,11 @@
 
   <!-- メインコンテンツ -->
   <main class="main-content">
+    <!-- 景品統計情報 -->
+    <div class="stats-section">
+      <PrizeStatsWidget />
+    </div>
+
     <!-- 景品追加ボタン -->
     <div class="add-button-container">
       <button
@@ -261,6 +284,22 @@
             {/if}
           </div>
 
+          <div class="form-group">
+            <label for="description">説明 (最大500文字)</label>
+            <textarea
+              id="description"
+              bind:value={formData.description}
+              rows="4"
+              maxlength="500"
+            ></textarea>
+            <div class="character-count">
+              {formData.description.length} / 500文字
+            </div>
+            {#if errors.description}
+              <p class="error-message">{errors.description}</p>
+            {/if}
+          </div>
+
           <div class="form-actions">
             <button type="button" class="cancel-button" onclick={closeForm}>
               キャンセル
@@ -324,6 +363,10 @@
 
   .back-button:hover {
     background-color: var(--color-option-highlight);
+  }
+
+  .stats-section {
+    margin-bottom: 2rem;
   }
 
   h1 {
@@ -484,13 +527,27 @@
     color: var(--color-text-high);
   }
 
-  .form-group input {
+  .form-group input,
+  .form-group textarea {
     width: 100%;
     padding: 0.75rem;
     font-size: 1rem;
     border: 1px solid var(--color-border-low);
     border-radius: 4px;
     background-color: var(--color-bg-low);
+    font-family: inherit;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .character-count {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--color-text-middle);
+    text-align: right;
   }
 
   .error-message {
