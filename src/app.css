@@ -1,0 +1,95 @@
+:root {
+  /* =========================
+      Primitive / Chromatic
+   ========================== */
+  --color-red: #d70c18;
+  --color-orange: #ff7831;
+  --color-light-orange: #ff7250;
+  --color-yellow: #ffb205;
+  --color-light-yellow: #fbd951;
+  --color-gold: #d9b34c;
+  --color-green: #00b200;
+  --color-warm-gray: #f4f2f0;
+
+  /* =========================
+      Primitive / Gray
+   ========================== */
+  --color-gray-0: #ffffff;
+  --color-gray-2: #f9f9f9;
+  --color-gray-4: #f5f5f5;
+  --color-gray-5: #f0f0f2;
+  --color-gray-10: #e1e1e5;
+  --color-gray-20: #c4c4cc;
+  --color-gray-30: #a8a9b2;
+  --color-gray-40: #8d9099;
+  --color-gray-50: #737480;
+  --color-gray-60: #5a5b66;
+  --color-gray-70: #42434d;
+  --color-gray-80: #2b2b33;
+  --color-gray-90: #15151a;
+
+  /* =========================
+      Semantic / Text & Icon
+   ========================== */
+  --color-text-high: var(--color-gray-90);
+  --color-text-middle: var(--color-gray-40);
+  --color-text-low: var(--color-gray-20);
+  --color-text-white: var(--color-gray-0);
+  --color-text-placeholder: var(--color-gray-30);
+  --color-text-disabled: var(--color-gray-20);
+
+  /* =========================
+      Semantic / Border
+   ========================== */
+  --color-border-back-btn: var(--color-gray-40);
+  --color-border-middle: var(--color-gray-30);
+  --color-border-low: var(--color-gray-10);
+  --color-border-white: var(--color-gray-0);
+  --color-border-disabled: var(--color-gray-20);
+
+  /* =========================
+      Semantic / Background
+   ========================== */
+  --color-bg-contents-area: var(--color-gray-4);
+  --color-bg-white: var(--color-gray-0);
+  --color-bg-high: var(--color-gray-20);
+  --color-bg-middle: var(--color-gray-10);
+  --color-bg-low: var(--color-gray-4);
+  --color-bg-disabled: var(--color-gray-20);
+  --color-bg-dark-tag: var(--color-gray-70);
+  --color-bg-senior-card: var(--color-warm-gray);
+  --color-bg-registration: var(--color-gray-2);
+  --color-bg-registration-pagination: color-mix(in srgb, var(--color-gray-4) 50%, transparent);
+
+  /* =========================
+      Semantic / Tool
+   ========================== */
+  --color-tool-scrollbar-bar: var(--color-gray-20);
+  --color-tool-scrollbar-area: var(--color-gray-4);
+  --color-tool-progress-bar: var(--color-gray-10);
+
+  /* =========================
+      Semantic / Option
+   ========================== */
+  --color-option-overlay: color-mix(in srgb, #000000 50%, transparent);
+  --color-option-learning-selected: color-mix(in srgb, var(--color-red) 10%, transparent);
+  --color-option-highlight: var(--color-gray-5);
+
+  /* =========================
+      Semantic / Accent
+   ========================== */
+  --color-accent-red: var(--color-red);
+  --color-accent-orange: var(--color-orange);
+  --color-accent-yellow: var(--color-yellow);
+  --color-accent-gold: var(--color-gold);
+  --color-accent-light-orange: var(--color-light-orange);
+  --color-accent-green-light: var(--color-green);
+  --color-accent-ranking-frame: var(--color-light-yellow);
+
+  /* =========================
+      Semantic / Brand
+   ========================== */
+  --color-brand-assign-red: var(--color-red);
+  --color-brand-white: var(--color-gray-0);
+
+}

@@ -1,0 +1,73 @@
+/**
+ * ガチャアプリケーションの型定義
+ */
+
+/**
+ * 景品エンティティ
+ */
+export interface Prize {
+  /** 一意識別子 */
+  id: string;
+
+  /** 景品名（1-100文字） */
+  name: string;
+
+  /** 景品画像URL */
+  imageUrl: string;
+
+  /** 在庫数（0以上の整数） */
+  stock: number;
+
+  /** 作成日時（UNIXタイムスタンプ） */
+  createdAt: number;
+}
+
+/**
+ * ガチャ実行状態
+ */
+export type GachaState = 'idle' | 'spinning' | 'revealing' | 'result' | 'complete';
+
+/**
+ * 画面種別
+ */
+export type Screen = 'gacha' | 'settings';
+
+/**
+ * 効果音の種類
+ */
+export type SoundEffect = 'spin' | 'reveal' | 'result';
+
+/**
+ * 景品追加リクエスト
+ */
+export interface AddPrizeRequest {
+  name: string;
+  imageUrl: string;
+  stock: number;
+}
+
+/**
+ * 景品更新リクエスト
+ */
+export interface UpdatePrizeRequest {
+  id: string;
+  name?: string;
+  imageUrl?: string;
+  stock?: number;
+}
+
+/**
+ * ガチャ結果
+ */
+export interface GachaResult {
+  prize: Prize;
+  timestamp: number;
+}
+
+/**
+ * アニメーション設定
+ */
+export interface AnimationConfig {
+  duration: number;
+  easing?: (t: number) => number;
+}
